@@ -41,6 +41,12 @@
       width: 6em;
       z-index: -1;
     }
+    #player {
+      z-index: 5;
+    }
+    #fade {
+      z-index: 4;
+    }
 
   </style>
   <head>
@@ -63,13 +69,22 @@
     
     
   <script>
+
+    
+
+    document.addEventListener('keydown', (e) => { 
+        if (e.keyCode == 70) {
+          alert('f was pressed');
+
+      }})
+
+    document.getElementById("FSCover").style.visibility = "hidden"; 
     var player, iframe;
     var $ = document.querySelector.bind(document);
     var VPlayer = document.getElementById("player")
-
     let textBox = document.getElementById("cringe");
     textBox.addEventListener('input', (e) => {
-      //document.getElementById("fullscreen").style.visibility = "visible"; 
+      document.getElementById("FSCover").style.visibility = "visible"; 
       document.getElementById("cringe").className = "animate__animated animate__backOutUp";
       document.getElementById("p").className = "animate__animated animate__backOutUp";
       var str = e.target.value.substring(32, 43);
@@ -125,6 +140,9 @@
         requestFullScreen.bind(iframe)();
       }
     }
+
+    
+
     </script>
     
   </body>
