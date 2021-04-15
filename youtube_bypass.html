@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <title>youtube_emulator</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+   />
+  <link rel="shortcut icon" type="image/jpg" href="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/395_Youtube_logo-512.png"/>
+  <style>
+    p {
+      width: 50em;
+      down: 20px;
+    }   
+    input {
+      position: absolute;
+      border-style: none;
+    }
+    body {
+    background: linear-gradient(to right, #454545 17%, #666699 82%)
+    }
+    h1 {
+      position: absolute;
+      bottom: .5em;
+    }
+    button {
+      position:absolute;
+      left: 20px;
+      top: 20px;
+      width: 100px;
+      height: 100px;
+      opacity: 0.1;
+    }
+    #FSCover {
+      position:absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .FSImage {
+      height: 6em;
+      width: 6em;
+      z-index: -1;
+    }
+
+  </style>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/driver.js/0.9.8/driver.min.js"></script>
+  </head>
+  <body id="background">
+    
+
+    <div id=p style="font-size:2.5em" class="player animate__animated animate__slideInLeft" >set the video link here:</div>
+
+    <input size="77" class="animate__animated animate__slideInLeft" type="text" style="background-color:#616060" id=cringe></input>
+    
+    <div style="top: 20px" class="animate__animated animate__flipInX" id="player"></div>
+    <button height="50%" width="20%"  id="fullscreen">fullscreen</button>
+    <div id="FSCover">
+      <img class="FSImage" src="https://cdn1.iconfinder.com/data/icons/material-core/14/fullscreen-512.png" alt="poo poo" />
+    </div>
+    <h1 id="copyright">2021 beefy joes meat emporium</h1> <!-- remove this and your dead -->
+    
+    
+  <script>
+    var player, iframe;
+    var $ = document.querySelector.bind(document);
+    var VPlayer = document.getElementById("player")
+
+    let textBox = document.getElementById("cringe");
+    textBox.addEventListener('input', (e) => {
+      //document.getElementById("fullscreen").style.visibility = "visible"; 
+      document.getElementById("cringe").className = "animate__animated animate__backOutUp";
+      document.getElementById("p").className = "animate__animated animate__backOutUp";
+      var str = e.target.value.substring(32, 43);
+      console.log(str)
+      player = new YT.Player('player', {
+        height: '520',
+        width: '853',
+        videoId: str,
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    })
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    var done = false;
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING && !done) {
+        setTimeout(stopVideo, Infinity);
+        done = true;
+      }
+    }
+    function stopVideo() {
+      player.stopVideo();
+    }
+
+    // when ready, wait for clicks
+    function onPlayerReady(event) {
+      var player = event.target;
+      iframe = $('#player');
+      setupListener(); 
+    }
+
+    function setupListener (){
+    $('button').addEventListener('click', playFullscreen);
+    }
+
+    function playFullscreen (){
+      player.playVideo();//won't work on mobile
+
+      var requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
+      if (requestFullScreen) {
+        requestFullScreen.bind(iframe)();
+      }
+    }
+    </script>
+    
+  </body>
+</html>
